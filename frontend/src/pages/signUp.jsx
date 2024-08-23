@@ -9,10 +9,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const response = await axios.post("http://localhost:4000/user/signUp");
-    }catch(error){
-      console.log("Error during the signup:",error.message);
+    try {
+      const response = await axios.post("http://localhost:8000/users/signUp",{name,email,password});
+    } catch (error) {
+      console.log("Error during the signup:", error.message);     
     }
   };
 
