@@ -3,13 +3,15 @@ const dotenv = require("dotenv");
 const dbConnection = require("./config/db");
 const cors = require("cors");
 
-dotenv.config(); // Load environment variables first
+dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL], // Use the environment variable after it's loaded
+    origin: [process.env.FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
