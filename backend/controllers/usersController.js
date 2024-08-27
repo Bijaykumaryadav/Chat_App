@@ -53,11 +53,24 @@ module.exports.signIn = async (req, res) => {
     return res
       .status(200)
       .json({ success: true, message: "Logged In Successful", user });
-      
   } catch (error) {
     console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "Error in log in", error });
   }
+};
+
+module.exports.googleSignUp = function (req, res) {
+  const { _id, name, email } = req.user;
+  const userData = {
+    id: _id,
+    name,
+    email,
+  };
+  const queryParams = new URLSearchParams(userData).toString();
+
+  res.redirect(
+    `http://localhost:8000/users/auth/googleCallback?${queryParams}`
+  );
 };

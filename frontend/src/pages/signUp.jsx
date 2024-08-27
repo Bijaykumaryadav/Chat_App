@@ -20,6 +20,11 @@ const SignUp = () => {
     }
   };
 
+    const handleGoogleSignIn = () => {
+    //Redirect to the Google sign-in endpoint
+    window.location.href = "http://localhost:8000/users/auth/google"
+  }
+
   return (
     <div className="flex items-center justify-center w-full h-screen">
       <form
@@ -59,7 +64,7 @@ const SignUp = () => {
         <button className="w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-colors duration-300 bg-blue-700 rounded-lg hover:bg-blue-500">
           Sign Up
         </button>
-        <button className="flex items-center justify-center w-full px-4 py-2 mt-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100">
+        <button className="flex items-center justify-center w-full px-4 py-2 mt-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100" onClick={handleGoogleSignIn}>
           <svg
             className="w-5 h-5 mr-2"
             viewBox="0 0 21 20"

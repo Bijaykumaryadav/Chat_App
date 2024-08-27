@@ -1,6 +1,5 @@
 const passport = require("passport");
 const User = require("../models/userSchema");
-const dotenv = require("dotenv").config();
 const crypto = require("crypto");
 
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;

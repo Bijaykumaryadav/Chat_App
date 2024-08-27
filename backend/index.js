@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const dbConnection = require("./config/db");
 const cors = require("cors");
+const passport = require("passport");
+const passportGoogle = require("./config/passport-google-strategy");
 
 dotenv.config();
 
