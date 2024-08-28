@@ -1,5 +1,8 @@
 const userSchema = require("../models/userSchema");
 const bcrypt = require("bcrypt");
+const {
+  forgottenPasswordEmail,
+} = require("../mailers/forgottenPasswordMailer");
 
 module.exports.signUp = async (req, res) => {
   try {
@@ -73,4 +76,32 @@ module.exports.googleSignUp = function (req, res) {
   res.redirect(
     `http://localhost:8000/users/auth/googleCallback?${queryParams}`
   );
+};
+
+//To sending mail to the user when forgots password
+module.exports.forgottenPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await userSchema.findOne({ email });
+    if (user) {
+      //send mail
+      forgottenPasswordEmail(user);
+      return res.status(200).json({
+        success: true,
+        message: "Password reset link has been sent to your email",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Email not Registered",
+      });
+    }
+  } catch (error) {
+    console.log(`Error in sending Forgotten Password Email ${error}`);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error,
+    });
+  }
 };
