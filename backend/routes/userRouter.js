@@ -14,7 +14,10 @@ router.get(
 
 router.get(
   "/users/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),usersController.googleSignUp
+  passport.authenticate("google", { failureRedirect: "/" }),
+  usersController.googleSignUp
 );
+
+router.post("/users/forgotten-password", usersController.forgottenPassword);
 
 module.exports = router;

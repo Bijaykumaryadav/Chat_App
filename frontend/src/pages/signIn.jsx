@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const SignIn = () => {
@@ -21,11 +22,6 @@ const SignIn = () => {
   const handleGoogleSignIn = () => {
     // Redirect to the Google sign-in endpoint
     window.location.href = "http://localhost:8000/users/auth/google";
-  };
-
-  const handleForgotPassword = () => {
-    // Redirect to the forgot password page or handle the process here
-    window.location.href = "http://localhost:8000/users/forgotPassword";
   };
 
   return (
@@ -87,13 +83,12 @@ const SignIn = () => {
           </svg>
           Continue with Google
         </button>
-        <button
-          className="w-full px-4 py-2 mt-2 text-gray-700 bg-transparent border-none rounded-lg hover:underline"
-          type="button"
-          onClick={handleForgotPassword}
+        <Link
+          to="/users/forgotten-password"
+          className="w-full px-4 py-2 mt-2 text-center text-gray-700 bg-transparent border-none rounded-lg hover:underline"
         >
           Forgot Password?
-        </button>
+        </Link>
       </form>
     </div>
   );

@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const {
   forgottenPasswordEmail,
 } = require("../mailers/forgottenPasswordMailer");
+const crypto = require("crypto");
 
 module.exports.signUp = async (req, res) => {
   try {
@@ -20,7 +21,12 @@ module.exports.signUp = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Email already exists" });
     }
-    await userSchema.create({ name, email, password });
+    await userSchema.create({ 
+      name, 
+      email, 
+      password,
+      token: crypto.randomBytes(16).toString("hex"),
+     });
     return res
       .status(200)
       .json({ success: true, message: "User created Successfully" });
@@ -84,7 +90,6 @@ module.exports.forgottenPassword = async (req, res) => {
     const { email } = req.body;
     const user = await userSchema.findOne({ email });
     if (user) {
-      //send mail
       forgottenPasswordEmail(user);
       return res.status(200).json({
         success: true,
