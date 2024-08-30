@@ -5,7 +5,11 @@ const passport = require("passport");
 const usersController = require("../controllers/usersController.js");
 
 router.post("/signUp", usersController.signUp);
+router.get("/verify-user/:token", usersController.verifyUser);
 router.post("/signIn", usersController.signIn);
+
+router.post("/forgotten-password", usersController.forgottenPassword);
+router.post("/reset-password/:token", usersController.resetPassword);
 
 router.get(
   "/auth/google",
@@ -17,7 +21,5 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   usersController.googleSignUp
 );
-
-router.post("/forgotten-password", usersController.forgottenPassword);
 
 module.exports = router;

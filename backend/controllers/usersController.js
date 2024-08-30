@@ -5,6 +5,7 @@ const {
 } = require("../mailers/forgottenPasswordMailer");
 const { verifyUserEmail } = require("../mailers/verifyUserEmail");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 module.exports.signUp = async (req, res) => {
   try {
@@ -33,13 +34,42 @@ module.exports.signUp = async (req, res) => {
       .status(200)
       .json({ 
         success: true, 
-        message: "User created Successfully" 
+        message: "User created Successfully",
+        User 
       });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+module.exports.verifyUser = async(req,res) => {
+  try{
+    const {token} = req.params;
+    const user = await userSchema.findOne({token});
+    if(!user){
+      return res.status(401).json({
+        message: "Token not valid",
+        success: false,
+      });
+    }
+    user.isApproved = true;
+    user.token = crypto.randomBytes(16).toString("hex");
+    await user.save();
+    console.log(user);
+
+    return res.status(200).json({
+      success: true,
+      message: "Verified Successfully",
+    });
+
+  }catch(error){
+    console.log(`Error in verifying the user ${error}`);
+    return res.status(500).json({
+      message: "Internal Server Error !",
+    })
+  }
+}
 
 module.exports.signIn = async (req, res) => {
   try {
@@ -57,6 +87,13 @@ module.exports.signIn = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
+    if(!user.isApproved){
+      return res.status(401).json({
+        success: false,
+        message: "Please Verify Your Email",
+      });
+    }
+
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res
@@ -64,9 +101,22 @@ module.exports.signIn = async (req, res) => {
         .json({ success: false, message: "Invalid Password" });
     }
 
+    const jwtToken = await jwt.sign(user.toJSON(),process.env.JWT_SECRET_KEY,{
+      expiresIn: "1d",
+    })
+
     return res
       .status(200)
-      .json({ success: true, message: "Logged In Successful", user });
+      .json({ 
+        success: true, 
+        message: "Logged In Successful", 
+        user:{
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          jwtToken,
+      },
+    });
   } catch (error) {
     console.log(error);
     return res

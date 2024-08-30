@@ -17,9 +17,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
   token: {
     type: String,
   },
+}, {
+  timestamps: true 
 });
 
 userSchema.pre("save", async function (next) {
@@ -35,6 +41,6 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema); // Model name should be capitalized
 
 module.exports = User;
