@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const dbConnection = require("./config/db");
-const cors = require("cors");
 const passport = require("passport");
 const passportGoogle = require("./config/passport-google-strategy");
 
@@ -9,18 +8,13 @@ dotenv.config();
 
 const app = express();
 
+// for routes to accept the json files
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.use(
-  cors({
-    origin: [process.env.FRONTEND_URL],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
 
 dbConnection();
 
-app.use("/", require("./routes/userRouter"));
+app.use("/api", require("./routes"));
 
 const port = process.env.PORT;
 app.listen(port, () => {

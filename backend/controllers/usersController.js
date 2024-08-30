@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const {
   forgottenPasswordEmail,
 } = require("../mailers/forgottenPasswordMailer");
+const { verifyUserEmail } = require("../mailers/verifyUserEmail");
 const crypto = require("crypto");
 
 module.exports.signUp = async (req, res) => {
@@ -21,15 +22,19 @@ module.exports.signUp = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Email already exists" });
     }
-    await userSchema.create({ 
-      name, 
-      email, 
+    const User = await userSchema.create({
+      name,
+      email,
       password,
       token: crypto.randomBytes(16).toString("hex"),
-     });
+    });
+    verifyUserEmail(User);
     return res
       .status(200)
-      .json({ success: true, message: "User created Successfully" });
+      .json({ 
+        success: true, 
+        message: "User created Successfully" 
+      });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, message: "Server Error" });
@@ -80,7 +85,7 @@ module.exports.googleSignUp = function (req, res) {
   const queryParams = new URLSearchParams(userData).toString();
 
   res.redirect(
-    `http://localhost:8000/users/auth/googleCallback?${queryParams}`
+    `http://localhost:8000/api/v1/users/auth/googleCallback?${queryParams}`
   );
 };
 
@@ -107,6 +112,36 @@ module.exports.forgottenPassword = async (req, res) => {
       success: false,
       message: "Internal Server Error",
       error,
+    });
+  }
+};
+
+module.exports.resetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const token = req.params.token;
+    const user = await userSchema.findOne({ token });
+    if (!user) {
+      return res.status(201).json({
+        message: "Token not Valid",
+      });
+    } else {
+      if (user.email === email) {
+        user.password = password;
+        await user.save();
+        return res.status(200).json({
+          message: "Password Updated Successfully",
+        });
+      } else {
+        return res.status(202).json({
+          message: "Email Not registered",
+        });
+      }
+    }
+  } catch (error) {
+    console.log(`Error in reseting password ${error}`);
+    return res.status(500).json({
+      message: "Internal Server Error",
     });
   }
 };

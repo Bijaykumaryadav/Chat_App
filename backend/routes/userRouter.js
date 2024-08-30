@@ -4,20 +4,20 @@ const passport = require("passport");
 
 const usersController = require("../controllers/usersController.js");
 
-router.post("/users/signUp", usersController.signUp);
-router.post("/users/signIn", usersController.signIn);
+router.post("/signUp", usersController.signUp);
+router.post("/signIn", usersController.signIn);
 
 router.get(
-  "/users/auth/google",
+  "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 router.get(
-  "/users/auth/google/callback",
+  "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   usersController.googleSignUp
 );
 
-router.post("/users/forgotten-password", usersController.forgottenPassword);
+router.post("/forgotten-password", usersController.forgottenPassword);
 
 module.exports = router;

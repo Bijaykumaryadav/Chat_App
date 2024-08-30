@@ -5,7 +5,7 @@ const path = require("path");
 module.exports.forgottenPasswordEmail = async (user) => {
   try {
     let emailHtml = await ejs.renderFile(
-      path.join(__dirname, "../views/forgottenPasswordEmail.ejs"),
+      path.join(__dirname, "../views/forgotPasswordEmail.ejs"),
       { token: user.token }
     );
     const options = {

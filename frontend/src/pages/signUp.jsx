@@ -10,7 +10,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = axios.post("http://localhost:8000/users/signUp", {
+      const response = axios.post("/api/v1/users/signUp", {
         name,
         email,
         password,
@@ -22,7 +22,7 @@ const SignUp = () => {
 
   const handleGoogleSignIn = () => {
     //Redirect to the Google sign-in endpoint
-    window.location.href = "http://localhost:8000/users/auth/google";
+    window.location.href = "http://localhost:8000/api/v1/users/auth/google";
   };
 
   return (
