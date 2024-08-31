@@ -1,11 +1,13 @@
 // src/pages/SignUp.jsx
 import axios from "axios";
 import { useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,13 +55,21 @@ const SignUp = () => {
         </label>
         <label className="w-full">
           Password:
-          <input
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded"
-            type="password"
-            placeholder="Enter Password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="w-full relative">
+            <input
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+            </span>
+          </div>
         </label>
         <button className="w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-colors duration-300 bg-blue-700 rounded-lg hover:bg-blue-500">
           Sign Up

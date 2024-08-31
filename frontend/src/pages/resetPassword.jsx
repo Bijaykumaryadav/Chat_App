@@ -14,10 +14,11 @@ const ResetPassword = () => {
   const clearInputs = () => {
     setPassword("");
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/users/reset-password/${token}`, {
+      const response = await axios.post(`/api/v1/users/reset-password/${token}`, {
         password,
       });
       if (response.status === 200) {
@@ -37,6 +38,7 @@ const ResetPassword = () => {
 
     clearInputs();
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-md">
@@ -69,7 +71,7 @@ const ResetPassword = () => {
                 className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <span
-                className="absolute top-2 right-3 cursor-pointer"
+                className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
