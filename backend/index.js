@@ -6,6 +6,8 @@ const MongoStore = require('connect-mongo');
 const passportGoogle = require("./config/passport-google-strategy");
 const passportJwtStrategy = require("./config/passport-jwt-strategy");
 const session = require("express-session");
+const multer = require("multer");
+const path = require("path");
 
 dotenv.config();
 
@@ -44,6 +46,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 dbConnection();
+
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// Static route to serve images
+app.use('/uploads', express.static('uploads'));
 
 app.use("/api", require("./routes"));
 
