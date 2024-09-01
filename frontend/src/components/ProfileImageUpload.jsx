@@ -1,10 +1,12 @@
 // ProfileImageUpload.js
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
 const ProfileImageUpload = () => {
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState('https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'); // Initial dummy image URL
+  const [imageUrl, setImageUrl] = useState(
+    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+  ); // Initial dummy image URL
   const userId = 1;
 
   const handleFileChange = (e) => {
@@ -18,18 +20,22 @@ const ProfileImageUpload = () => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('profileImage', file);
-    formData.append('userId', userId);
+    formData.append("profileImage", file);
+    formData.append("userId", userId);
 
     try {
-      const response = await axios.post('http://localhost:8000/upload-profile-image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post(
+        "/api/v1/chats/upload-profile-image",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(response.data);
     } catch (error) {
-      console.error('Error uploading the profile image:', error);
+      console.error("Error uploading the profile image:", error);
     }
   };
 
@@ -37,11 +43,17 @@ const ProfileImageUpload = () => {
     <div className="flex flex-col items-center">
       <div
         className="relative overflow-hidden rounded-full cursor-pointer w-36 h-36"
-        onClick={() => document.getElementById('fileInput').click()}
+        onClick={() => document.getElementById("fileInput").click()}
       >
-        <img src={imageUrl} alt="Profile" className="object-cover w-full h-full" />
+        <img
+          src={imageUrl}
+          alt="Profile"
+          className="object-cover w-full h-full"
+        />
         <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 bg-black bg-opacity-50 opacity-0 hover:opacity-100">
-          <div className="text-lg font-bold text-white">Change Profile Picture</div>
+          <div className="text-lg font-bold text-white">
+            Change Profile Picture
+          </div>
         </div>
       </div>
       <form onSubmit={handleSubmit}>
