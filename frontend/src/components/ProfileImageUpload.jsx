@@ -1,13 +1,15 @@
-// ProfileImageUpload.js
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { setProfileImage, userSelector } from "../redux/reducers/userReducer";
 
 const ProfileImageUpload = () => {
+  const dispatch = useDispatch();
+  const { initialUser } = useSelector(userSelector);
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+    initialUser.profileImage || "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   ); // Initial dummy image URL
-  const userId = 1;
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -21,7 +23,7 @@ const ProfileImageUpload = () => {
 
     const formData = new FormData();
     formData.append("profileImage", file);
-    formData.append("userId", userId);
+    formData.append("userId", initialUser._id);
 
     try {
       const response = await axios.post(
@@ -33,7 +35,7 @@ const ProfileImageUpload = () => {
           },
         }
       );
-      console.log(response.data);
+      dispatch(setProfileImage({ profileImage: response.data.profileImage }));
     } catch (error) {
       console.error("Error uploading the profile image:", error);
     }

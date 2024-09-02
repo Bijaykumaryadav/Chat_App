@@ -5,6 +5,7 @@ import ForgottenPassword from "./pages/ForgottenPassword";
 import ResetPassword from "./pages/resetPassword";
 import VerifyUser from "./pages/verifyUser";
 import ProfileImageUpload from "./components/ProfileImageUpload";
+import UserProfile from "./components/userProfile";
 
 export const router = createBrowserRouter([
   {
@@ -19,13 +20,20 @@ export const router = createBrowserRouter([
     path: "/users/signIn",
     element: <SignIn />,
   },
-  { path: "/users/forgotten-password", element: <ForgottenPassword /> },
+  {
+    path: "/users/forgotten-password",
+    element: <ForgottenPassword />,
+  },
   {
     path: "/users/reset-password/:token",
     element: <ResetPassword />,
   },
   {
-    path: "/users/profile",
+    path: "/users/profileImage_upload",
     element: <ProfileImageUpload />,
+  },
+  {
+    path: "/users/profile",
+    element: <UserProfile />,
   },
 ]);

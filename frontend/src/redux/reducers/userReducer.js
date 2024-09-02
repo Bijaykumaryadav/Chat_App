@@ -41,15 +41,20 @@ const userSlice = createSlice({
         showUserProfile: action.payload,
       };
     },
+
+    setProfileImage: (state, action) => {
+      state.initialUser.profileImage = action.payload.profileImage;
+    },
   },
 });
 
 export const userReducer = userSlice.reducer;
 export const {
-    authorizeUser,
-    logOutUser,
-    toggleShowProfile,
-    toggleShowSideBar,
+  authorizeUser,
+  logOutUser,
+  toggleShowProfile,
+  toggleShowSideBar,
+  setProfileImage,
 } = userSlice.actions;
 
 export const userSelector = (state) => state.userReducer;
