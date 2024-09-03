@@ -8,7 +8,9 @@ const initialState = {
   showUserProfile: {},
   searchedUsers: [],
   selectedChat: {},
-  chats: [], // Add this if 'chats' should be part of the initial state
+  chats: [],
+  messageArray: [],
+  notifications: [],
 };
 
 const userSlice = createSlice({
@@ -79,6 +81,20 @@ const userSlice = createSlice({
         }
       }
     },
+
+        setMessageArray: (state, action) => {
+      const payload = action.payload;
+      if (Array.isArray(payload)) {
+        state.messageArray = [...payload];
+      } else {
+        state.messageArray = [...state.messageArray, payload];
+      }
+    },
+
+    setNotifications: (state, action) => {
+      console.log(action.payload);
+      state.notifications = [action.payload, ...state.notifications];
+    },
   },
 });
 
@@ -91,6 +107,8 @@ export const {
   toggleShowSideBar,
   setProfileImage,
   setChats,
+  setMessageArray,
+  setNotifications,
 } = userSlice.actions;
 
 export const userSelector = (state) => state.userReducer;
