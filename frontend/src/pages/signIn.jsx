@@ -26,7 +26,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-screen bg-gray-50">
+    <div className="flex items-center justify-center w-full bg-gray-50">
       <form
         className="flex flex-col items-center p-6 space-y-4 bg-white border border-gray-300 rounded-lg shadow-lg w-11/12 max-w-md animate__animated animate__fadeIn"
         onSubmit={handleSubmit}
