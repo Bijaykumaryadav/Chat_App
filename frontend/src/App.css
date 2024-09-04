@@ -1,3 +1,56 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #2d3748;
+}
+
+p {
+  color: #4a5568;
+}
+
+button {
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4a5568;
+}
+
+input {
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #4a5568;
+  outline: none;
+}
+
+.form-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  background-color: #edf2f7;
+}
+
+.animate__animated.animate__fadeIn {
+  animation-duration: 1.5s;
+}
+
+.animate__animated.animate__fadeInDown {
+  animation-duration: 1s;
+}
+
+.animate__animated.animate__fadeInUp {
+  animation-duration: 1.2s;
+}

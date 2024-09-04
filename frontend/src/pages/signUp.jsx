@@ -1,4 +1,3 @@
-// src/pages/SignUp.jsx
 import axios from "axios";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -12,7 +11,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = axios.post("/api/v1/users/signUp", {
+      await axios.post("/api/v1/users/signUp", {
         name,
         email,
         password,
@@ -23,14 +22,13 @@ const SignUp = () => {
   };
 
   const handleGoogleSignIn = () => {
-    //Redirect to the Google sign-in endpoint
     window.location.href = "http://localhost:8000/api/v1/users/auth/google";
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-screen">
+    <div className="flex items-center justify-center w-full h-screen bg-gray-50">
       <form
-        className="flex flex-col items-center p-6 space-y-4 bg-[#f9f9f9] border border-gray-300 rounded-lg shadow-md w-11/12 max-w-md"
+        className="flex flex-col items-center w-11/12 max-w-md p-6 space-y-4 bg-white border border-gray-300 rounded-lg shadow-lg animate__animated animate__fadeIn"
         onSubmit={handleSubmit}
       >
         <label className="w-full">
@@ -55,7 +53,7 @@ const SignUp = () => {
         </label>
         <label className="w-full">
           Password:
-          <div className="w-full relative">
+          <div className="relative w-full">
             <input
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded"
               type={showPassword ? "text" : "password"}
@@ -64,14 +62,14 @@ const SignUp = () => {
               required
             />
             <span
-              className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              className="absolute inset-y-0 flex items-center cursor-pointer right-3"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
             </span>
           </div>
         </label>
-        <button className="w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-colors duration-300 bg-blue-700 rounded-lg hover:bg-blue-500">
+        <button className="w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-colors duration-300 bg-gray-800 rounded-lg hover:bg-gray-600">
           Sign Up
         </button>
         <button

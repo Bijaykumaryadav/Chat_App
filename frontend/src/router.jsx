@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import ForgottenPassword from "./pages/ForgottenPassword";
@@ -6,8 +6,25 @@ import ResetPassword from "./pages/resetPassword";
 import VerifyUser from "./pages/verifyUser";
 import ProfileImageUpload from "./components/ProfileImageUpload";
 import UserProfile from "./components/userProfile";
+import { useSelector } from "react-redux";
+import { userSelector } from "./redux/reducers/userReducer";
+import HomePage from "./pages/Home";
+
+export const ProtectedRouteChat = ({ element }) => {
+  const { initialUser } = useSelector(userSelector);
+  return initialUser.token ? element : <Navigate to="/" />;
+};
+
+export const ProtectedRoute = ({ element }) => {
+  const { initialUser } = useSelector(userSelector);
+  return initialUser.token ? <Navigate to="/user/chat" /> : element;
+};
 
 export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ProtectedRoute element={<HomePage />} />,
+  },
   {
     path: "/users/signUp",
     element: <SignUp />,

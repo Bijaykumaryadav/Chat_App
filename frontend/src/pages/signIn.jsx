@@ -22,14 +22,13 @@ const SignIn = () => {
   };
 
   const handleGoogleSignIn = () => {
-    // Redirect to the Google sign-in endpoint
     window.location.href = "http://localhost:8000/api/v1/users/auth/google";
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-screen">
+    <div className="flex items-center justify-center w-full h-screen bg-gray-50">
       <form
-        className="flex flex-col items-center p-6 space-y-4 bg-[#f9f9f9] border border-gray-300 rounded-lg shadow-md w-11/12 max-w-md"
+        className="flex flex-col items-center p-6 space-y-4 bg-white border border-gray-300 rounded-lg shadow-lg w-11/12 max-w-md animate__animated animate__fadeIn"
         onSubmit={handleSubmit}
       >
         <label className="w-full">
@@ -60,7 +59,7 @@ const SignIn = () => {
             </span>
           </div>
         </label>
-        <button className="w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-colors duration-300 bg-blue-700 rounded-lg hover:bg-blue-500">
+        <button className="w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-colors duration-300 bg-gray-800 rounded-lg hover:bg-gray-600">
           Sign In
         </button>
         <button
