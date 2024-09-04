@@ -24,4 +24,7 @@ router.get(
   usersController.googleSignUp
 );
 
+router.get("/search-user", usersController.searchUser);
+
+
 module.exports = router;

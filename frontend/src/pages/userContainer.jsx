@@ -8,7 +8,7 @@ import {
 } from "../redux/reducers/userReducer";
 import UserView from "./userView";
 import axios from "axios";
-import CreateGroupChatFrom from "./createGroupChatFrom";
+import createGroupChatForm from "./createGroupChatForm";
 import { createPortal } from "react-dom";
 import { RotatingLines } from "react-loader-spinner";
 const UserContainer = () => {
@@ -24,7 +24,7 @@ const UserContainer = () => {
           Authorization: `Bearer ${initialUser.token}`,
         },
       };
-      const { data } = await axios.get("/user/chat", config);
+      const { data } = await axios.get("/users/chat", config);
       dispatch(setChats(data));
     } catch (error) {
       // toast.error(`Error in fetching Chats`);
@@ -112,7 +112,7 @@ const UserContainer = () => {
             </div>
             {toggleGroupChatForm &&
               createPortal(
-                <CreateGroupChatFrom
+                <createGroupChatForm
                   toggleGroupChatFormFucntion={toggleGroupChatFormFucntion}
                 />,
                 document.querySelector(".modalContainer")

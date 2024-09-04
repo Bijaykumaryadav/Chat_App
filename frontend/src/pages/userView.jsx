@@ -16,7 +16,7 @@ const UserView = (props) => {
           Authorization: `Bearer ${initialUser.token}`,
         },
       };
-      const { data } = await axios.post("/user/chat", { userId }, config);
+      const { data } = await axios.post("/users/chat", { userId }, config);
       dispatch(setChats(data));
     } catch (error) {
       toast.error("Internal Serever Error!");

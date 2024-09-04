@@ -12,7 +12,7 @@ function GoogleCallback() {
     //You can store it in local storage,state,or use it as needed
     localStorage.setItem("user", JSON.stringify(userData));
     toast.success("Signed in Successful");
-    navigate("/user/chat");
+    navigate("/users/chat");
   }, [location.search]);
 
   return <div>redirecting....</div>;

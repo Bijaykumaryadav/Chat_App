@@ -32,7 +32,7 @@ const SignIn = () => {
         toast.success("Signed In successfull!! ");
         console.log(data.data.data.user);
         localStorage.setItem("user", JSON.stringify(data.data.data.user));
-        navigate("/user/chat");
+        navigate("/users/chat");
       } else if (data.status === 201) {
         toast.error("Email not verified ");
       } else if (data.status === 202) {

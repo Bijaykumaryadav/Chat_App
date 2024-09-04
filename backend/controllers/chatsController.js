@@ -3,7 +3,7 @@ const User = require("../models/userSchema");
 const Chat = require("../models/chatSchema");
 require("dotenv").config();
 
-module.exports.ontToOneChat = async function (req, res) {
+module.exports.oneToOneChat = async function (req, res) {
   const { userId } = req.body;
   if (!userId) {
     console.log("UserId not sent with the request");

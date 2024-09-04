@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { userSelector } from "./redux/reducers/userReducer";
 import HomePage from "./pages/Home";
 import GoogleCallback from "./pages/googleCallback";
+import ChatPage from "./pages/chatPage";
 
 export const ProtectedRouteChat = ({ element }) => {
   const { initialUser } = useSelector(userSelector);
@@ -16,7 +17,7 @@ export const ProtectedRouteChat = ({ element }) => {
 
 export const ProtectedRoute = ({ element }) => {
   const { initialUser } = useSelector(userSelector);
-  return initialUser.token ? <Navigate to="/user/chat" /> : element;
+  return initialUser.token ? <Navigate to="/users/chat" /> : element;
 };
 
 export const router = createBrowserRouter([
@@ -48,4 +49,7 @@ export const router = createBrowserRouter([
     path: "/users/profile",
     element: <UserProfile />,
   },
+  { path: "/users/chat",
+  element: <ProtectedRouteChat element={<ChatPage />} />,
+  }
 ]);
