@@ -7,6 +7,7 @@ const passportGoogle = require("./config/passport-google-strategy");
 const passportJwtStrategy = require("./config/passport-jwt-strategy");
 const session = require("express-session");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(cookieParser());
 app.use(
   session({
     name: "chatApp",

@@ -1,6 +1,4 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import SignUp from "./pages/signUp";
-import SignIn from "./pages/signIn";
 import ForgottenPassword from "./pages/ForgottenPassword";
 import ResetPassword from "./pages/resetPassword";
 import VerifyUser from "./pages/verifyUser";
@@ -9,6 +7,7 @@ import UserProfile from "./components/userProfile";
 import { useSelector } from "react-redux";
 import { userSelector } from "./redux/reducers/userReducer";
 import HomePage from "./pages/Home";
+import GoogleCallback from "./pages/googleCallback";
 
 export const ProtectedRouteChat = ({ element }) => {
   const { initialUser } = useSelector(userSelector);
@@ -26,16 +25,12 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute element={<HomePage />} />,
   },
   {
-    path: "/users/signUp",
-    element: <SignUp />,
+    path: "/users/auth/googleCallback",
+    element: <GoogleCallback />,
   },
   {
     path: "/users/verify-user/:token",
     element: <VerifyUser />,
-  },
-  {
-    path: "/users/signIn",
-    element: <SignIn />,
   },
   {
     path: "/users/forgotten-password",

@@ -1,21 +1,45 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/v1/users/signIn", {
-        email,
-        password,
-      });
-      console.log(response);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const data = await axios.post(
+        "/api/v1/users/signIn",
+        {
+          email,
+          password,
+        },
+        config
+      );
+      console.log(data);
+
+      if (data.status === 200) {
+        toast.success("Signed In successfull!! ");
+        console.log(data.data.data.user);
+        localStorage.setItem("user", JSON.stringify(data.data.data.user));
+        navigate("/user/chat");
+      } else if (data.status === 201) {
+        toast.error("Email not verified ");
+      } else if (data.status === 202) {
+        toast.error("Password invalid!!");
+      } else {
+        toast.error("Email not registered!");
+      }
     } catch (error) {
       console.log("Error during the signIn:", error.message);
     }
@@ -28,7 +52,7 @@ const SignIn = () => {
   return (
     <div className="flex items-center justify-center w-full bg-gray-50">
       <form
-        className="flex flex-col items-center p-6 space-y-4 bg-white border border-gray-300 rounded-lg shadow-lg w-11/12 max-w-md animate__animated animate__fadeIn"
+        className="flex flex-col items-center w-11/12 max-w-md p-6 space-y-4 bg-white border border-gray-300 rounded-lg shadow-lg animate__animated animate__fadeIn"
         onSubmit={handleSubmit}
       >
         <label className="w-full">
@@ -41,7 +65,7 @@ const SignIn = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        <label className="w-full relative">
+        <label className="relative w-full">
           Password:
           <div className="relative w-full">
             <input
@@ -52,7 +76,7 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <span
-              className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              className="absolute inset-y-0 flex items-center cursor-pointer right-3"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}

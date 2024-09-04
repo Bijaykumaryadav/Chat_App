@@ -30,24 +30,22 @@ module.exports.signUp = async (req, res) => {
       token: crypto.randomBytes(16).toString("hex"),
     });
     verifyUserEmail(User);
-    return res
-      .status(200)
-      .json({ 
-        success: true, 
-        message: "User created Successfully",
-        User 
-      });
+    return res.status(200).json({
+      success: true,
+      message: "User created Successfully",
+      User,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
 
-module.exports.verifyUser = async(req,res) => {
-  try{
-    const {token} = req.params;
-    const user = await userSchema.findOne({token});
-    if(!user){
+module.exports.verifyUser = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const user = await userSchema.findOne({ token });
+    if (!user) {
       return res.status(401).json({
         message: "Token not valid",
         success: false,
@@ -62,14 +60,13 @@ module.exports.verifyUser = async(req,res) => {
       success: true,
       message: "Verified Successfully",
     });
-
-  }catch(error){
+  } catch (error) {
     console.log(`Error in verifying the user ${error}`);
     return res.status(500).json({
       message: "Internal Server Error !",
-    })
+    });
   }
-}
+};
 
 module.exports.signIn = async (req, res) => {
   try {
@@ -87,7 +84,7 @@ module.exports.signIn = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    if(!user.isApproved){
+    if (!user.isApproved) {
       return res.status(401).json({
         success: false,
         message: "Please Verify Your Email",
@@ -101,20 +98,18 @@ module.exports.signIn = async (req, res) => {
         .json({ success: false, message: "Invalid Password" });
     }
 
-    const jwtToken = await jwt.sign(user.toJSON(),process.env.JWT_SECRET_KEY,{
+    const jwtToken = await jwt.sign(user.toJSON(), process.env.JWT_SECRET_KEY, {
       expiresIn: "1d",
-    })
+    });
 
-    return res
-      .status(200)
-      .json({ 
-        success: true, 
-        message: "Logged In Successful", 
-        user:{
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          jwtToken,
+    return res.status(200).json({
+      success: true,
+      message: "Logged In Successful",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        jwtToken,
       },
     });
   } catch (error) {
@@ -125,17 +120,36 @@ module.exports.signIn = async (req, res) => {
   }
 };
 
+// /user/search-user/?search?=name
+module.exports.searchUser = async function (req, res) {
+  console.log(req.user);
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const users = await userSchema.find(keyword).select("-password");
+  res.send(users);
+};
+
 module.exports.googleSignUp = function (req, res) {
   const { _id, name, email } = req.user;
+  const token = jwt.sign(req.user.toJSON(), process.env.JWT_SECRET_KEY, {
+    expiresIn: "30d",
+  });
   const userData = {
     id: _id,
     name,
     email,
+    token,
   };
   const queryParams = new URLSearchParams(userData).toString();
 
   res.redirect(
-    `http://localhost:8000/api/v1/users/auth/googleCallback?${queryParams}`
+    `${process.env.FRONTEND_URL}/users/auth/googleCallback?${queryParams}`
   );
 };
 
@@ -195,4 +209,3 @@ module.exports.resetPassword = async (req, res) => {
     });
   }
 };
-

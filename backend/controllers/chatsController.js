@@ -1,7 +1,7 @@
 const profileImageSchema = require("../models/profileImageSchema");
 const User = require("../models/userSchema");
 const Chat = require("../models/chatSchema");
-const dotEnv = require("dotenv").config();
+require("dotenv").config();
 
 module.exports.ontToOneChat = async function (req, res) {
   const { userId } = req.body;
