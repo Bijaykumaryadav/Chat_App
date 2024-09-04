@@ -2,6 +2,7 @@ const Message = require("../models/messageSchema");
 const User = require("../models/userSchema");
 const Chat = require("../models/chatSchema");
 
+
 module.exports.sendMessage = async function (req, res) {
   const { chatId, content } = req.body;
   if (!content || !chatId) {
